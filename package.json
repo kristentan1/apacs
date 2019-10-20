@@ -1,0 +1,15 @@
+{
+  "name": "sundowning3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "getsunsettime.js",
+  "scripts": {
+    "start": "node getsunsettime.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kristen Tan",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.0"
+  }
+}
