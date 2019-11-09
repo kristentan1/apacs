@@ -1,0 +1,15 @@
+{
+  "name": "motionsensor",
+  "version": "1.0.0",
+  "description": "pls work",
+  "main": "runChildProcess.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "1989 Gunmetal Grey R32 Nissan GTR Skyline",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0"
+  }
+}
