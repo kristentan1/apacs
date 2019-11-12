@@ -21,6 +21,27 @@ const handlebarsInstance = exphbs.create({
     partialsDir: ["views/partials/"]
   });
 
+    var receivedResult = true;
+    var spawn = require('child_process').spawn,
+    py = spawn('python', ['getPressureReadings.py']),
+    data = [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    dataString = '';
+
+    py.stdout.on('data', function(data){
+        // dataString += data.toString(); 
+        console.log("");
+    });
+    py.stdout.on('end', function(){
+      receivedResult = true; // Indicate that we have returned successfully from the Python program.
+      console.log("");
+    });
+    py.stdin.write(JSON.stringify(data));
+    py.stdin.end();
+
+    // if (data) {
+    //   receivedResult = true;
+    // }
+
 app.engine("handlebars", handlebarsInstance.engine);
 app.set("view engine", "handlebars");
 
@@ -29,6 +50,8 @@ app.listen(3000, () => {
   console.log("Your routes will be running on http://localhost:3000");
 });
 
-app.get('/', (req, res) => {
+if (receivedResult === true) {
+  app.get('/', (req, res) => {
     res.render('layouts/main')
-})
+  }); 
+}
