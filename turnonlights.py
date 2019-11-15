@@ -37,8 +37,8 @@ def main():
     # original_power = bulb.get_power()
     # original_color = bulb.get_color()
 
-    # TURN BULB ON
-    bulb.set_power("on")
+    # TURN BULB ON over time
+    bulb.set_power("on", 20000)
 
     # sleep(0.2) # to look pretty
 
@@ -81,5 +81,7 @@ def main():
 
 if __name__=="__main__":
     # Uncomment the line below to test if turning on the light works.
-    # main()
-    print('Hi help what am I doing')
+    main()
+    # print('Hi help what am I doing')
+    # print('Done')
+    # x = 7
