@@ -17,7 +17,7 @@ export default class Home extends Component {
                 />
                 <Button
                     title = "Wander Beacon"
-                    color = "yellow"
+                    color = "orange"
                     onPress = {() => this.props.navigation.navigate('Wandering')}
                 />
                 <Button
