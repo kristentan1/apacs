@@ -7,6 +7,7 @@ import {
     TextInput,
     Alert
 } from 'react-native';
+import axios from 'axios';
 
 import { db } from '../config';
 
@@ -15,6 +16,21 @@ let addItem = item => {
         time: item
     });
 };
+
+async function getTimes() {
+    const { data } = await axios.get('https://api.sunrise-sunset.org/json?lat=40.7440&lng=-74.0324&date=today');
+    return data;
+}
+
+async function convertSunsetTime() {
+    let rawTimeData = await getTimes();
+    let rawSunsetTime = rawTimeData.results.sunset;
+    let hourMinSecArr = rawSunsetTime.split(":");
+    let sunsetHourMin = {};
+    sunsetHourMin.hour = parseInt(hourMinSecArr[0]);
+    sunsetHourMin.min = parseInt(hourMinSecArr[1]);
+    return sunsetHourMin;
+}
 
 export default class AddItem extends Component {
     state = {
@@ -32,6 +48,18 @@ export default class AddItem extends Component {
         Alert.alert('Time set successfully');
     };
 
+    handleReset = async () => {
+        const todaysSunsetTime = await convertSunsetTime();
+        let lightsOnTimeHour = todaysSunsetTime.hour - 5; // Convert from UTC to EST
+        let lightsOnTimeMin = todaysSunsetTime.min - 20;
+        if (lightsOnTimeMin < 0) {
+            lightsOnTimeMin = 60 + lightsOnTimeMin;
+            lightsOnTimeHour = lightsOnTimeHour - 1;
+        }
+        addItem(lightsOnTimeHour.toString() + ':' + lightsOnTimeMin.toString());
+        Alert.alert('The time has been reset.');
+    }
+
     render() {
         return (
             <View style={styles.main}>
@@ -44,6 +72,13 @@ export default class AddItem extends Component {
                     onPress={this.handleSubmit}
                 >
                     <Text style={styles.buttonText}>Set Time</Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                    style={styles.button}
+                    underlayColor="white"
+                    onPress={this.handleReset}
+                >
+                    <Text style={styles.buttonText}>Reset Time</Text>
                 </TouchableHighlight>
             </View>
         );
