@@ -45,6 +45,7 @@ export default class AddItem extends Component {
 
     handleSubmit = () => {
         addItem(this.state.time);
+        this.textInput.clear()
         Alert.alert('Time set successfully');
     };
 
@@ -65,7 +66,7 @@ export default class AddItem extends Component {
             <View style={styles.main}>
                 <Text style={styles.title}>Sundowning Prevention</Text>
                 <Text>If you would like to override the default sundowning prevention time of 16:00, please enter a lights-on time in the format XX:XX below.</Text>
-                <TextInput style={styles.itemInput} onChange={this.handleChange} />
+                <TextInput ref={input => { this.textInput = input }} style={styles.itemInput} onChange={this.handleChange} />
                 <TouchableHighlight
                     style={styles.button}
                     underlayColor="white"
