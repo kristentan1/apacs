@@ -45,9 +45,42 @@ export default class Login extends Component {
     handleSubmit = () => {
         addEntry(this.state.username, this.state.password);
         this.textInput.clear()
-        Alert.alert('Success!');
-        this.props.navigation.navigate('Home')
+        Alert.alert('Account created!');
+        this.props.navigation.navigate('Home');
     };
+
+    // handleLogin = () => {
+        
+    //     this.textInput.clear()
+    //     Alert.alert('Success!');
+    //     this.props.navigation.navigate('Home')
+    // };
+
+    handleLogin = () => {
+        var ref = db.ref("/userEntries");
+    
+        let snapshotObj = {};
+    
+        // Attach an asynchronous callback to read the data at our posts reference
+        ref.on("value", function (snapshot) {
+            snapshotObj = snapshot.val();
+            console.log('++++++++++++++++++++++++++++++++');
+            console.log(snapshotObj);
+            console.log('++++++++++++++++++++++++++++++++');
+            for (var key in snapshotObj) {
+                console.log('======================================');
+                console.log(key);
+                console.log(snapshotObj[key]);
+                console.log('======================================');
+            }
+            // conso snapshotObj;
+        }, function (errorObject) {
+            // return ("The read failed: " + errorObject.code);
+            console.log("The read failed: " + errorObject.code);
+        });
+        this.props.navigation.navigate('Home');
+
+    }
 
     render() {
         return (
@@ -73,7 +106,7 @@ export default class Login extends Component {
 
                     <TouchableOpacity
                     style={styles.buttonContainer}
-                    onPress={this.handleSubmit}
+                    onPress={this.handleLogin}
                     // onPress = {() => this.props.navigation.navigate('Home')}
                     >
                         <Text style={styles.buttonText}>LOGIN</Text>
