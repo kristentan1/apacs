@@ -62,24 +62,29 @@ export default class Login extends Component {
         let snapshotObj = {};
     
         // Attach an asynchronous callback to read the data at our posts reference
-        ref.on("value", function (snapshot) {
+        ref.on("value", function (snapshot, this) {
+            console.log('++++++++++++++++++++++++++++++++++++++++++');
+            console.log(this.state);
+            console.log('++++++++++++++++++++++++++++++++++++++++++');
             snapshotObj = snapshot.val();
-            console.log('++++++++++++++++++++++++++++++++');
-            console.log(snapshotObj);
-            console.log('++++++++++++++++++++++++++++++++');
             for (var key in snapshotObj) {
-                console.log('======================================');
-                console.log(key);
-                console.log(snapshotObj[key]);
-                console.log('======================================');
+                // console.log('======================================');
+                // console.log(key);
+                // console.log(snapshotObj[key]);
+                // console.log('======================================');
+                if (('hello' === snapshotObj[key].username) && (this.state.password === snapshotObj[key].password)) {
+                    console.log('*****IN IF*****');
+                    this.props.navigation.navigate('Home');
+                } else {
+                    console.log('*****IN ELSE*****');
+                    Alert.alert('Invalid username or password. Please try again.');
+                }
             }
             // conso snapshotObj;
         }, function (errorObject) {
             // return ("The read failed: " + errorObject.code);
             console.log("The read failed: " + errorObject.code);
         });
-        this.props.navigation.navigate('Home');
-
     }
 
     render() {
