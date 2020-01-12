@@ -30,6 +30,7 @@ export default class LoginForm extends Component {
         this.setState({
             email: '', password: '', error: '', loading: false
         })
+        console.log('Made it here');
     }
     onLoginFailure(errorMessage) {
         if (errorMessage === 'The email address is already in use by another account.') {
