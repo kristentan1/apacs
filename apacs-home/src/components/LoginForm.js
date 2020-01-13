@@ -74,7 +74,7 @@ export default class LoginForm extends Component {
                     onChangeText={password => this.setState({ password })}
                 />
 
-                {/* {this.renderButton()} */}
+                {this.renderButton()}
 
                 <Text style={styles.errorTextStyle}>
                     {this.state.error}

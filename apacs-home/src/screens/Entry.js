@@ -48,14 +48,7 @@ export default class Entry extends Component {
     } else {
       console.log('NAH NOT LOGGED IN');
       return (
-        <View>
-          <LoginForm />
-        <Button
-          title="SIGN IN / SIGN UP"
-          onPress={() => this.props.navigation.navigate('Home')}
-        />
-        </View>
-            
+        <LoginForm />
       );
     }
   }
@@ -68,7 +61,7 @@ export default class Entry extends Component {
         {/* <Header title='Authenticator' /> */}
         {this.renderComponent()}
       </View>
-
+      
     );
   }
 }
