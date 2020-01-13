@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
-import Header from '../components/Header'
-import LoginForm from '../components/LoginForm'
+import Header from '../components/Header';
+import LoginForm from '../components/LoginForm';
+import HomeComp from '../components/Home';
 import firebase from 'firebase';
 
 export default class Entry extends Component {
@@ -40,10 +41,11 @@ export default class Entry extends Component {
     if (this.state.loggedIn) {
       console.log('LOGGED IN');
       return (
-        <Button
-          title="Sign out"
-          onPress={() => firebase.auth().signOut()}
-        />
+        <HomeComp />
+        // <Button
+        //   title="Sign out"
+        //   onPress={() => firebase.auth().signOut()}
+        // />
       );
     } else {
       console.log('NAH NOT LOGGED IN');
