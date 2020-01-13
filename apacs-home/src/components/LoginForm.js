@@ -29,8 +29,9 @@ export default class LoginForm extends Component {
     onLoginSuccess() {
         this.setState({
             email: '', password: '', error: '', loading: false
-        })
-        console.log('Made it here');
+        });
+        this.props.navigation.navigate('Home');
+        console.log('BRUUHHH');
     }
     onLoginFailure(errorMessage) {
         if (errorMessage === 'The email address is already in use by another account.') {
@@ -73,7 +74,7 @@ export default class LoginForm extends Component {
                     onChangeText={password => this.setState({ password })}
                 />
 
-                {this.renderButton()}
+                {/* {this.renderButton()} */}
 
                 <Text style={styles.errorTextStyle}>
                     {this.state.error}

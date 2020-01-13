@@ -67,6 +67,9 @@ export default class App extends Component {
   }
 
   renderComponent() {
+    // return (
+    //     <LoginForm />
+    //   );
     if (this.state.loggedIn) {
       return (
         <Button
@@ -83,10 +86,11 @@ export default class App extends Component {
 
   render() {
     return (
-      <View>
-        <Header title='Authenticator' />
-        {this.renderComponent()}
-      </View>
+      <AppContainer />
+      // <View>
+      //   <Header title='Authenticator' />
+      //   {this.renderComponent()}
+      // </View>
     );
   }
 }
