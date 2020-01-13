@@ -60,31 +60,46 @@ export default class Login extends Component {
         var ref = db.ref("/userEntries");
     
         let snapshotObj = {};
+
+        let result = {};
     
         // Attach an asynchronous callback to read the data at our posts reference
-        ref.on("value", function (snapshot, this) {
-            console.log('++++++++++++++++++++++++++++++++++++++++++');
-            console.log(this.state);
-            console.log('++++++++++++++++++++++++++++++++++++++++++');
+        result = ref.on("value", function (snapshot) {
             snapshotObj = snapshot.val();
-            for (var key in snapshotObj) {
-                // console.log('======================================');
-                // console.log(key);
-                // console.log(snapshotObj[key]);
-                // console.log('======================================');
-                if (('hello' === snapshotObj[key].username) && (this.state.password === snapshotObj[key].password)) {
-                    console.log('*****IN IF*****');
-                    this.props.navigation.navigate('Home');
-                } else {
-                    console.log('*****IN ELSE*****');
-                    Alert.alert('Invalid username or password. Please try again.');
-                }
-            }
-            // conso snapshotObj;
+            return snapshotObj;
+            // for (var key in snapshotObj) {
+            //     // console.log('======================================');
+            //     // console.log(key);
+            //     // console.log(snapshotObj[key]);
+            //     // console.log('======================================');
+            //     if (('hello' === snapshotObj[key].username) && (this.state.password === snapshotObj[key].password)) {
+            //         console.log('*****IN IF*****');
+            //         this.props.navigation.navigate('Home');
+            //         break;
+            //     } else {
+            //         console.log('*****IN ELSE*****');
+            //         Alert.alert('Invalid username or password. Please try again.');
+            //     }
+            // }
         }, function (errorObject) {
-            // return ("The read failed: " + errorObject.code);
-            console.log("The read failed: " + errorObject.code);
+            return ("The read failed: " + errorObject.code);
+            // console.log("The read failed: " + errorObject.code);
         });
+
+        console.log('00000000000000000000000000000000000000000000000000');
+        console.log(result);
+        console.log('00000000000000000000000000000000000000000000000000');
+
+        for (var key in result) {
+            if (('hello' === result[key].username) && (this.state.password === result[key].password)) {
+                console.log('*****IN IF*****');
+                this.props.navigation.navigate('Home');
+                break;
+            } else {
+                console.log('*****IN ELSE*****');
+                Alert.alert('Invalid username or password. Please try again.');
+            }
+        }
     }
 
     render() {

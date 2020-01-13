@@ -2,6 +2,7 @@ from flask import Flask
 from flask_ask import Ask, statement, convert_errors
 import RPi.GPIO as GPIO
 import logging
+import time
 
 GPIO.setmode(GPIO.BCM)
 

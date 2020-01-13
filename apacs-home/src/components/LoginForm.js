@@ -27,6 +27,7 @@ export default class LoginForm extends Component {
             });
     }
     onLoginSuccess() {
+        console.log('LOGIN SUCCESS');
         this.setState({
             email: '', password: '', error: '', loading: false
         });
