@@ -3,6 +3,15 @@ import { View, Button, Text, ActivityIndicator } from 'react-native';
 import Input from './Input';
 import firebase from 'firebase'
 
+import { db } from '../config';
+
+let addLoginError = item => {
+    db.ref('/loginerrors').push({
+        loginerror: item,
+        errorTime: new Date()
+    });
+};
+
 export default class LoginForm extends Component {
     state = { email: '', password: '' };
 
@@ -41,7 +50,8 @@ export default class LoginForm extends Component {
         if (errorMessage === 'Weak password!') {
             errorMessage = 'If you are attempting to create a new account, your password is too weak! Please create a password of at least 8 characters that contains at least one uppercase letter and one number.\n\nIf you are not attempting to create a new account and you are certain your email is correct, please re-type your password.';
         }
-        this.setState({ error: errorMessage, loading: false })
+        addLoginError(errorMessage);
+        this.setState({ error: errorMessage, loading: false });
     }
     renderButton() {
         if (this.state.loading) {
