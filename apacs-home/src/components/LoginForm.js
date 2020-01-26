@@ -6,9 +6,11 @@ import firebase from 'firebase'
 import { db } from '../config';
 
 let addLoginError = item => {
+    let currTime = new Date();
+    console.log(currTime);
     db.ref('/loginerrors').push({
         loginerror: item,
-        errorTime: new Date()
+        errorTime: currTime.toString()
     });
 };
 
