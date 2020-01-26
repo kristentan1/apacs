@@ -17,6 +17,8 @@ let addLoginError = item => {
 export default class LoginForm extends Component {
     state = { email: '', password: '' };
 
+    consoleContents = [];
+
 
     onButtonPress() {
         this.setState({ error: '', loading: true })
@@ -25,27 +27,51 @@ export default class LoginForm extends Component {
             .then(this.onLoginSuccess.bind(this))
             .catch(() => {
                 firebase.auth().createUserWithEmailAndPassword(email, password)
-                    .then(this.onLoginSuccess.bind(this))
+                    .then((error) => {
+                        this.onLoginSuccess.bind(this);
+                        error = 'NOTHING';
+                    })
                     .catch((error) => {
-                        let errorCode = error.code
-                        let errorMessage = error.message;
-                        if (errorCode == 'auth/weak-password') {
-                            this.onLoginFailure.bind(this)('Weak password!')
-                        } else {
-                            this.onLoginFailure.bind(this)(errorMessage)
+                        console.log('-------------------------------------------');
+                        console.log(error);
+                        console.log('-------------------------------------------');
+                        console.log(this.consoleContents);
+                        if (this.consoleContents[this.consoleContents.length - 1] !== 'in') {
+                            let errorCode = error.code
+                            let errorMessage = error.message;
+                            if (errorCode == 'auth/weak-password') {
+                                this.onLoginFailure.bind(this)('Weak password!')
+                            } else {
+                                this.onLoginFailure.bind(this)(errorMessage)
+                            }
                         }
+                        // console.log(con)
+                        this.consoleContents.push('nah');
+                        console.log('*******************');
+                        console.log(this.consoleContents);
+                        console.log('*******************');
+                        // let errorCode = error.code
+                        // let errorMessage = error.message;
+                        // if (errorCode == 'auth/weak-password') {
+                        //     this.onLoginFailure.bind(this)('Weak password!')
+                        // } else {
+                        //     this.onLoginFailure.bind(this)(errorMessage)
+                        // }
                     });
             });
     }
     onLoginSuccess() {
         console.log('LOGIN SUCCESS');
+        // this.props.navigation.navigate('Home');
         this.setState({
             email: '', password: '', error: '', loading: false
         });
+        this.consoleContents.push('in');
         this.props.navigation.navigate('Home');
-        console.log('BRUUHHH');
+        // console.log('BRUUHHH');
     }
     onLoginFailure(errorMessage) {
+        console.log('WE ARE HERE');
         if (errorMessage === 'The email address is already in use by another account.') {
             errorMessage = 'This email address is already in use by another account. If you are not attempting to create a new account and you are certain your email address is correct, please try again with the correct password.';
         }
