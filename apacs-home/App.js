@@ -19,6 +19,8 @@ import _ from 'lodash';
 
 import firebase from 'firebase';
 
+console.disableYellowBox = true;
+
 YellowBox.ignoreWarnings(['Setting a timer']);
 const _console = _.clone(console);
 console.warn = message => {
