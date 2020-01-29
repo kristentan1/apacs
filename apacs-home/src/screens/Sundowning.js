@@ -58,9 +58,6 @@ export default class AddItem extends Component {
             this.textInput.clear();
             Alert.alert('Time set successfully');
         }
-        // addItem(this.state.time);
-        // this.textInput.clear()
-        // Alert.alert('Time set successfully');
     };
 
     handleReset = async () => {
