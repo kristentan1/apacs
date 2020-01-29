@@ -44,9 +44,23 @@ export default class AddItem extends Component {
     };
 
     handleSubmit = () => {
-        addItem(this.state.time);
-        this.textInput.clear()
-        Alert.alert('Time set successfully');
+        let timeArr = this.state.time.split(':');
+        console.log(timeArr);
+        console.log(parseInt(timeArr[0]));
+        if (this.state.time.length != 5) {
+            Alert.alert('Improper time format. Please enter a time in the format ##:##.');
+        } else if (timeArr.length != 2) {
+            Alert.alert('Improper time format. Please enter a time in the format ##:##.');
+        } else if ( isNaN(parseInt(timeArr[0])) || isNaN(parseInt(timeArr[1])) ) {
+            Alert.alert('Improper time format. Please enter a time in the format ##:##');
+        } else {
+            addItem(this.state.time);
+            this.textInput.clear();
+            Alert.alert('Time set successfully');
+        }
+        // addItem(this.state.time);
+        // this.textInput.clear()
+        // Alert.alert('Time set successfully');
     };
 
     handleReset = async () => {
@@ -93,13 +107,13 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         backgroundColor: '#45b3e0'
-      },
-      title: {
+    },
+    title: {
         marginBottom: 20,
         fontSize: 25,
         textAlign: 'center'
-      },
-      itemInput: {
+    },
+    itemInput: {
         height: 50,
         padding: 4,
         marginRight: 5,
@@ -108,13 +122,13 @@ const styles = StyleSheet.create({
         borderColor: 'white',
         borderRadius: 8,
         color: 'white'
-      },
-      buttonText: {
+    },
+    buttonText: {
         fontSize: 18,
         color: '#111',
         alignSelf: 'center'
-      },
-      button: {
+    },
+    button: {
         height: 45,
         flexDirection: 'row',
         backgroundColor: 'white',
@@ -125,5 +139,5 @@ const styles = StyleSheet.create({
         marginTop: 10,
         alignSelf: 'stretch',
         justifyContent: 'center'
-      }
+    }
 });
