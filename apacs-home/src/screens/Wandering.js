@@ -4,51 +4,17 @@ import {
     Text,
     TouchableHighlight,
     StyleSheet,
-    TextInput,
     Alert
 } from 'react-native';
 
 import { db } from '../config';
-var ref = db.ref("/motionAlerts");
-console.log('aaaaaaaaaaaaaah');
-ref.on('value', function (data) {
-    // this.setState({ logs: data.val() });
-    console.log(Object.values(data.val()));
-}.bind(this));
-console.log('here we are!!!!!!!!!!!!!!!!!');
-// function readFromDb(databaseArg) {
-//     var ref = databaseArg.ref("/motionAlerts");
-
-//     let snapshotArray = [];
-//     let logString = '';
-
-//     // Attach an asynchronous callback to read the data at our posts reference
-//     ref.on("value", function (snapshot) {
-//         let snapshotObj = snapshot.val();
-//         snapshotArray = Object.values(snapshotObj);
-//         console.log('++++++++++++++++++++++++++++++++');
-//         console.log(snapshotObj);
-//         console.log(typeof snapshot.val());
-//         console.log(snapshotArray);
-//         // console.log(typeof snapshotArray);
-//         // console.log(snapshotArray[snapshotArray.length - 1].time);
-//         console.log('++++++++++++++++++++++++++++++++');
-//         // for (let i = 0; i < snapshotArray.length; i++) {
-//         //     logString += snapshotArray[i] + '\n';
-//         // }
-//         // console.log('');
-//         return snapshotArray;
-//     }, function (errorObject) {
-//         return ("The read failed: " + errorObject.code);
-//     });
-//     return snapshotArray;
-// };
-
-let addItem = item => {
-    db.ref('/items').push({
-        name: item
-    });
-};
+// var ref = db.ref("/motionAlerts");
+// console.log('aaaaaaaaaaaaaah');
+// ref.on('value', function (data) {
+//     // this.setState({ logs: data.val() });
+//     console.log(Object.values(data.val()));
+// }.bind(this));
+// console.log('here we are!!!!!!!!!!!!!!!!!');
 
 export default class Wandering extends Component {
     constructor(props) {
@@ -56,6 +22,13 @@ export default class Wandering extends Component {
     }
     state = {
         logs: []
+    };
+
+    handleRefresh = () => {
+        var ref = db.ref("/motionAlerts");
+        ref.on('value', function (data) {
+            this.setState({ logs: Object.values(data.val()) });
+        }.bind(this));
     };
 
     componentWillMount() {
@@ -81,6 +54,13 @@ export default class Wandering extends Component {
                         return <Text>{item.message}</Text>
                     })}
                 </Text>
+                {/* <TouchableHighlight
+                    style={styles.button}
+                    underlayColor="white"
+                    onPress={this.handleRefresh}
+                >
+                    <Text style={styles.buttonText}>Refresh Logs</Text>
+                </TouchableHighlight> */}
             </View>
         );
     }
