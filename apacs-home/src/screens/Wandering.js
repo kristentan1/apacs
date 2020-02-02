@@ -9,6 +9,40 @@ import {
 } from 'react-native';
 
 import { db } from '../config';
+var ref = db.ref("/motionAlerts");
+console.log('aaaaaaaaaaaaaah');
+ref.on('value', function (data) {
+    // this.setState({ logs: data.val() });
+    console.log(Object.values(data.val()));
+}.bind(this));
+console.log('here we are!!!!!!!!!!!!!!!!!');
+// function readFromDb(databaseArg) {
+//     var ref = databaseArg.ref("/motionAlerts");
+
+//     let snapshotArray = [];
+//     let logString = '';
+
+//     // Attach an asynchronous callback to read the data at our posts reference
+//     ref.on("value", function (snapshot) {
+//         let snapshotObj = snapshot.val();
+//         snapshotArray = Object.values(snapshotObj);
+//         console.log('++++++++++++++++++++++++++++++++');
+//         console.log(snapshotObj);
+//         console.log(typeof snapshot.val());
+//         console.log(snapshotArray);
+//         // console.log(typeof snapshotArray);
+//         // console.log(snapshotArray[snapshotArray.length - 1].time);
+//         console.log('++++++++++++++++++++++++++++++++');
+//         // for (let i = 0; i < snapshotArray.length; i++) {
+//         //     logString += snapshotArray[i] + '\n';
+//         // }
+//         // console.log('');
+//         return snapshotArray;
+//     }, function (errorObject) {
+//         return ("The read failed: " + errorObject.code);
+//     });
+//     return snapshotArray;
+// };
 
 let addItem = item => {
     db.ref('/items').push({
@@ -16,35 +50,37 @@ let addItem = item => {
     });
 };
 
-export default class AddItem extends Component {
+export default class Wandering extends Component {
+    constructor(props) {
+        super(props);
+    }
     state = {
-        name: ''
+        logs: []
     };
 
-    handleChange = e => {
-        this.setState({
-            name: e.nativeEvent.text
-        });
-    };
+    componentWillMount() {
+        var ref = db.ref("/motionAlerts");
+        ref.on('value', function (data) {
+            this.setState({ logs: Object.values(data.val()) });
+        }.bind(this));
+    }
 
-    handleSubmit = () => {
-        addItem(this.state.name);
-        Alert.alert('Item saved successfully');
-    };
+    // retrieved_logs = readFromDb(db);
 
     render() {
         return (
             <View style={styles.main}>
-                <Text style={styles.title}>Sundowning Prevention</Text>
-                <Text>If you would like to override the default sundowning prevention time of 16:00, please enter a lights-on time in the format XX:XX below.</Text>
-                <TextInput style={styles.itemInput} onChange={this.handleChange} />
-                <TouchableHighlight
-                    style={styles.button}
-                    underlayColor="white"
-                    onPress={this.handleSubmit}
-                >
-                    <Text style={styles.buttonText}>Set Time</Text>
-                </TouchableHighlight>
+                <Text style={styles.title}>Wander Beacon</Text>
+                <Text>The following are the most recent logs of the wander beacon.</Text>
+                <Text></Text>
+                <Text>Some logs here.</Text>
+                <Text></Text>
+                {/* <Text>{this.state.logs.toString()}</Text> */}
+                <Text>
+                    {this.state.logs.map(function (item, index) {
+                        return <Text>{item.message}</Text>
+                    })}
+                </Text>
             </View>
         );
     }
@@ -57,13 +93,13 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         backgroundColor: '#6565fc'
-      },
-      title: {
+    },
+    title: {
         marginBottom: 20,
         fontSize: 25,
         textAlign: 'center'
-      },
-      itemInput: {
+    },
+    itemInput: {
         height: 50,
         padding: 4,
         marginRight: 5,
@@ -72,13 +108,13 @@ const styles = StyleSheet.create({
         borderColor: 'white',
         borderRadius: 8,
         color: 'white'
-      },
-      buttonText: {
+    },
+    buttonText: {
         fontSize: 18,
         color: '#111',
         alignSelf: 'center'
-      },
-      button: {
+    },
+    button: {
         height: 45,
         flexDirection: 'row',
         backgroundColor: 'white',
@@ -89,5 +125,5 @@ const styles = StyleSheet.create({
         marginTop: 10,
         alignSelf: 'stretch',
         justifyContent: 'center'
-      }
+    }
 });
