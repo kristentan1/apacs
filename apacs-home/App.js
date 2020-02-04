@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Button} from 'react-native';
+import { View, Button } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import Home from './src/screens/Home';
@@ -28,6 +28,23 @@ console.warn = message => {
     _console.warn(message);
   }
 };
+
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)
+  .then(function () {
+    // Existing and future Auth states are now persisted in the current
+    // session only. Closing the window would clear any existing state even
+    // if a user forgets to sign out.
+    // ...
+    // New sign-in will be persisted with session persistence.
+    return firebase.auth().signInWithEmailAndPassword(email, password);
+  })
+  .catch(function (error) {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    console.log(errorCode);
+    console.log(errorMessage);
+  });
 
 const AppNavigator = createStackNavigator(
   {
