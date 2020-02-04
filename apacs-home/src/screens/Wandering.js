@@ -33,7 +33,7 @@ export default class Wandering extends Component {
 
     componentWillMount() {
         var ref = db.ref("/motionAlerts");
-        ref.on('value', function (data) {
+        ref.limitToLast(20).on('value', function (data) {
             this.setState({ logs: Object.values(data.val()) });
         }.bind(this));
     }
@@ -45,8 +45,6 @@ export default class Wandering extends Component {
             <View style={styles.main}>
                 <Text style={styles.title}>Wander Beacon</Text>
                 <Text>The following are the most recent logs of the wander beacon.</Text>
-                <Text></Text>
-                <Text>Some logs here.</Text>
                 <Text></Text>
                 {/* <Text>{this.state.logs.toString()}</Text> */}
                 <Text>
