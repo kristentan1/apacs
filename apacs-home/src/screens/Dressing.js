@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
     View,
     Text,
+    Button,
     TouchableHighlight,
     StyleSheet,
     TextInput,
@@ -9,46 +10,82 @@ import {
 } from 'react-native';
 
 import { db } from '../config';
+import {withNavigation} from 'react-navigation';
 
 let addItem = item => {
-    db.ref('/items').push({
-        name: item
+    db.ref('/urls').push({
+        url: item
     });
 };
 
-export default class AddItem extends Component {
-    state = {
-        name: ''
-    };
+export default class Dressing extends Component {
+    
+    constructor(props) {
+        super(props);
+        this.state = {
+            urls: ''
+        }
+        this.handleChange = this.handleChange.bind(this);
+    }
 
-    handleChange = e => {
+    handleChange(value) {
         this.setState({
-            name: e.nativeEvent.text
+            urls: value
         });
-    };
-
-    handleSubmit = () => {
-        addItem(this.state.name);
-        Alert.alert('Item saved successfully');
+        addItem(value);
+        Alert.alert('Link updated');
     };
 
     render() {
         return (
-            <View style={styles.main}>
-                <Text style={styles.title}>Sundowning Prevention</Text>
-                <Text>If you would like to override the default sundowning prevention time of 16:00, please enter a lights-on time in the format XX:XX below.</Text>
-                <TextInput style={styles.itemInput} onChange={this.handleChange} />
-                <TouchableHighlight
-                    style={styles.button}
-                    underlayColor="white"
-                    onPress={this.handleSubmit}
-                >
-                    <Text style={styles.buttonText}>Set Time</Text>
-                </TouchableHighlight>
+            <View>
+                <Text style = {styles.title}>
+                    Getting Dressed
+                </Text>
+                <Button
+                    title = "Little Help Tutorial"
+                    value = {'firsturl'}
+                    onPress = {() => {
+                        this.handleChange("firsturl");
+                    }}
+                />
+                <Text style = {styles.infoText}>
+                    Inlcudes bottom help.
+                </Text>
+                <Button
+                    title = "Some Help Tutorial"
+                    color = "green"
+                    onPress = {() => {
+                        this.handleChange("secondurl");
+                    }}
+                />
+                <Text style = {styles.infoText}>
+                    Inlcudes top and bottom help.
+                </Text>
+                <Button
+                    title = "A Lot of Help Tutorial"
+                    color = "orange"
+                    onPress = {() => {
+                        this.handleChange("thirdurl");
+                    }}
+                />
+                <Text style = {styles.infoText}>
+                    Inlcudes top, bottom and shoes help.
+                </Text>
+                <Button
+                    title = "Full Tutorial"
+                    color = "red"
+                    onPress = {() => {
+                        this.handleChange("https://youtu.be/TwIVUSjBQTc");
+                    }}
+                />
+                <Text style = {styles.infoText}>
+                    Inlcudes full getting dressed tutorial.
+                </Text>
             </View>
         );
     }
-}
+}  
 
 const styles = StyleSheet.create({
     main: {
@@ -77,6 +114,11 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#111',
         alignSelf: 'center'
+      },
+      infoText: {
+        fontSize: 14,
+        color: '#111',
+        alignContent: 'center'
       },
       button: {
         height: 45,
