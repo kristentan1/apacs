@@ -17,10 +17,14 @@ let addItem = item => {
 };
 
 export default class AddItem extends Component {
+    constructor(props) {
+        super(props);
+    }
+
     state = {
         time: '',
-        text: ''
-
+        text: '',
+        logs: []
     };
 
     handleTimeChange = e => {
@@ -50,10 +54,17 @@ export default class AddItem extends Component {
         } else {
             addItem(this.state);
             //addItem(this.state.reminder)
- //this.textInput.clear();
+            //this.textInput.clear();
             Alert.alert('Time set successfully');
         }
     };
+
+    componentWillMount() {
+        var ref = db.ref("/reminders");
+        ref.limitToLast(20).on('value', function (data) {
+            this.setState({ logs: Object.values(data.val()) });
+        }.bind(this));
+    }
 
     render() {
         return (
@@ -69,6 +80,11 @@ export default class AddItem extends Component {
                 >
                     <Text style={styles.buttonText}>Set Reminder</Text>
                 </TouchableHighlight>
+                <Text>
+                    {this.state.logs.map(function (item, index) {
+                        return <Text>{[item.reminder.text, " ", item.reminder.time]}{"\n"}</Text>
+                    })}
+                </Text>
             </View>
         );
     }
