@@ -25,6 +25,7 @@ export default class Dressing extends Component {
         this.state = {
             urls: ''
         }
+        this.baseState = this.state
         this.handleChange = this.handleChange.bind(this);
     }
 
@@ -32,7 +33,7 @@ export default class Dressing extends Component {
         this.setState({
             urls: value
         });
-        addItem(value);
+        db.ref('urls').update({url: value});
         Alert.alert('Link updated');
     };
 
